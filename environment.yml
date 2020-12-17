@@ -1,0 +1,19 @@
+# You can use this file to create a conda environment for this pipeline:
+#   conda env create -f environment.yml
+name: bisulfite_align
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - conda-forge::python=3.7.3
+  - conda-forge::pigz=2.3.4
+  - conda-forge::graphviz=2.40.1
+  - bioconda::fastqc=0.11.9
+  - bioconda::trim-galore=0.6.5
+  - bioconda::samtools=1.9
+  - bioconda::bowtie2=2.3.5
+  - bioconda::bismark=0.22.3
+  - bioconda::qualimap=2.2.2d
+  - bioconda::preseq=2.0.3
+  - bioconda::multiqc=1.8
