@@ -31,7 +31,8 @@ def helpMessage() {
      --reads [file]                     Path to input data; not necessary if skipping FastQC & Trim Galore!
      --bismark_index [dir]              Path to Bismark bisulfite converted genome reference dir
      --outdir [dir]                     Directory to save results; must point to an S3 Bucket if on AWS Batch; default ''./results'
-     
+    
+    Optional Arguments:
      --rrbs                             Set if MspI digested template DNA; will auto skip deduplication; default false
      --nugen                            Set if processing data generated with NuGEN Ovation RRBS Methyl-Seq libraries
      --custom_container [uri]           Input URI path for custom container; default image is rfchan/bisulfite_align
@@ -57,21 +58,21 @@ def helpMessage() {
      --three_prime_clip_r2 [int]        Trim the specified number of bases from the 3' end of read 2 AFTER adapter/quality trimming; default 0
        
         
-        !! WARNING: these overwrite command line settings for --clip_r1 --clip_r2 --three_prime_clip_r1 --three_prime_clip_r2 !!
+    !! WARNING: the following overwrite command line settings for --clip_r1 --clip_r2 --three_prime_clip_r1 --three_prime_clip_r2 !!
      
      --truseq_epi                       Presets for WGBS applications using Illumina TruSeq Epigenome
      --single_cell                      Presets for increased stringency in scWGBS and scRRBS; ignored when "--nugen" supplied
 
     Bismark Alignment Options:
-     --comprehensive                    Output information for all cytosine contexts
-     --cytosine_report                  Output stranded cytosine report during Bismark's bismark_methylation_extractor step.
+     --comprehensive                    Output information for all cytosine contexts; default = false
+     --cytosine_report                  Output stranded cytosine report during Bismark's bismark_methylation_extractor step; default = false
      --non_directional                  Run alignment against all four possible strands; default = false
      --unmapped                         Save unmapped reads to fastq files; default = false
-     --relax_mismatches                 Turn on to relax stringency for alignment (set allowed penalty with --num_mismatches)
-     --num_mismatches [float]           0.6 will allow a penalty of bp * -0.6 - for 100bp reads (bismark default is 0.2)
-     --local_alignment                  Allow soft-clipping of reads (potentially useful for single-cell experiments)
-     --bismark_align_cpu_per_multicore [int]    Specify how many CPUs are required per --multicore for bismark align (default = 3)
-     --bismark_align_mem_per_multicore [str]    Specify how much memory is required per --multicore for bismark align (default = 15.GB)
+     --relax_mismatches                 Turn on to relax stringency for alignment (set allowed penalty with --num_mismatches); default = false
+     --num_mismatches [float]           default value = 0.6 will allow a penalty of bp * -0.6 - for 100bp reads (bismark default is 0.2)
+     --local_alignment                  Allow soft-clipping of reads (potentially useful for single-cell experiments); default = false
+     --bismark_align_cpu_per_multicore [int]    Specify how many CPUs are required per --multicore for bismark align; default = 3
+     --bismark_align_mem_per_multicore [str]    Specify how much memory is required per --multicore for bismark align; default = 15.GB
 
     """.stripIndent()
 }
