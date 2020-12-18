@@ -46,7 +46,7 @@ def helpMessage() {
     --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs"
     --skip_extract                      Skips Bismark methylation call extraction
 
-    --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files when "--skip_trim" supplied
+    --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files; automatically invokes "--skip_trim" 
     --bams [file]                       Use when skipping alignment and/or deduplication. If running deduplication input raw 
                                         aligned BAMs. If performing methylation call extraction from BAMs "--skip_align" is 
                                         automatically invoked. Invoke "--skip_dedup" if deduplication is not desired for input 
@@ -250,7 +250,7 @@ log.info "-\033[2m--------------------------------------------------\033[0m-"
 /*
  * Trim Galore!
  */
- if ( params.skip_trim ){
+ if ( params.skip_trim || params.trimmed_reads ){
      ch_trimmed_reads_for_alignment = Channel.empty()
      ch_trim_galore_results_for_multiqc = Channel.from(false)
  } else {

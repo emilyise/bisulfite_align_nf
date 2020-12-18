@@ -64,7 +64,7 @@ Intermediate Arguments:
     --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs"
     --skip_extract                      Skips Bismark methylation call extraction
 
-    --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files when "--skip_trim" supplied
+    --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files; automatically invokes "--skip_trim"
     --bams [file]                       Use when skipping alignment and/or deduplication. If running deduplication input raw 
                                         aligned BAMs. If performing methylation call extraction from BAMs "--skip_align" is 
                                         automatically invoked. Invoke "--skip_dedup" if deduplication is not desired for input 
