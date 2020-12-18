@@ -48,9 +48,9 @@ def helpMessage() {
 
     --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files when "--skip_trim" supplied
     --bams [file]                       Use when skipping alignment and/or deduplication. If running deduplication input raw 
-                                        aligned BAMs. If performing methylation call extraction from bams "--skip_align" is 
+                                        aligned BAMs. If performing methylation call extraction from BAMs "--skip_align" is 
                                         automatically invoked. Invoke "--skip_dedup" if deduplication is not desired for input 
-                                        BAMs. For methylation call extraction from RRBS bams invoking only "--rrbs" is needed
+                                        BAMs. For methylation call extraction from RRBS BAMs invoking only "--rrbs" is needed
 
     Trim Galore! Options:
      --clip_r1 [int]                    Trim the specified number of bases from the 5' end of read 1 (or single-end reads); default 0
