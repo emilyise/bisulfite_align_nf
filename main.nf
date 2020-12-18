@@ -15,7 +15,7 @@ def helpMessage() {
 
     The typical command for running the pipeline:
 
-       nextflow run rfchan/bisulfite_align --profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/index/dir/>
+       nextflow run bisulfite_align/main.nf --profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/index/dir/>
 
     
     The typical command for running the pipeline within AWS Batch:

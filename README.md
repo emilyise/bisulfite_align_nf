@@ -23,12 +23,12 @@ The default Docker image used for the pipeline is [rfchan/bisulfite_align](https
 
 **Each step of the pipeline can be skipped** and the appropriate intermediate files can be used to start a given step as needed. 
 
-***NOTE**: when using skip parameters steps 8-10 will not be run as the necessary output/report files are no longer contained with the pipeline flow.
+***NOTE**: when using skip parameters steps 7-10 will not be run as the necessary output/report files are no longer contained with the pipeline flow.
 
 ## Usage
 The typical command for running the pipeline:
 
-    nextflow run rfchan/bisulfite_align --profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/bismarl/index/dir> --outdir <path/to/output/dir>
+    nextflow run bisulfite_align/main.nf --profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/bismarl/index/dir> --outdir <path/to/output/dir>
 
 The typical command for running the pipeline within AWS Batch:
 
