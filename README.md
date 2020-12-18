@@ -40,7 +40,7 @@ The typical command for running the pipeline within AWS Batch:
 
 ## Arguments
 
-Mandatory Arguments:
+Basic Arguments:
 
      --profile                          Choice of: 'awsbatch', 'docker', 'conda'
      --reads [file]                     Path to input data; not needed if skipping FastQC & Trim Galore!
