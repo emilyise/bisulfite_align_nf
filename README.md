@@ -60,14 +60,15 @@ Intermediate Arguments:
 
     --skip_fastqc                       Skips FastQC of raw reads
     --skip_trim                         Skips read trimming; will automatically skip raw read FastQC step
-    --skip_align                        Skips Bismark Alignment; must be invoked if 
-    --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs true"
+    --skip_align                        Skips Bismark Alignment; automatically invoked when "--bams" provided 
+    --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs"
     --skip_extract                      Skips Bismark methylation call extraction
 
     --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files when "--skip_trim" supplied
-    --bams [file]                       Use when skipping alignment or deduplication. If running deduplication input raw BAMs. If performing
-                                        methylation call extraction from deduplicated bams "--skip_align" MUST be invoked. For methylation
-                                        call extraction from RRBS bams invoke both "--rrbs" and "--skip_align"
+    --bams [file]                       Use when skipping alignment and/or deduplication. If running deduplication input raw 
+                                        aligned BAMs. If performing methylation call extraction from bams "--skip_align" is 
+                                        automatically invoked. Invoke "--skip_dedup" if deduplication is not desired for input 
+                                        BAMs. For methylation call extraction from RRBS bams invoking only "--rrbs" is needed
 
 Trim Galore! Options:
 
@@ -139,4 +140,3 @@ Results for a full pipeline run will be saved to **--outdir** as:
         - trimmed_reads
             - *_pass_1_val_1.fq.gz
             - *_pass_2_val_2.fq.gz
-            

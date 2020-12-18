@@ -42,14 +42,15 @@ def helpMessage() {
         Note, skipping any step will also break the downstream generation of a MultiQC report:
     --skip_fastqc                       Skips FastQC of raw reads
     --skip_trim                         Skips read trimming; will automatically skip raw read FastQC step
-    --skip_align                        Skips Bismark Alignment; must be invoked if 
-    --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs true"
+    --skip_align                        Skips Bismark Alignment; automatically invoked when "--bams" provided 
+    --skip_dedup                        Skips BAM deduplication; automatically invoked with "--rrbs"
     --skip_extract                      Skips Bismark methylation call extraction
 
     --trimmed_reads [file]              Use in place of --reads to align trimmed read fastq files when "--skip_trim" supplied
-    --bams [file]                       Use when skipping alignment or deduplication. If running deduplication input raw BAMs. If performing
-                                        methylation call extraction from deduplicated bams "--skip_align" MUST be invoked. For methylation
-                                        call extraction from RRBS bams invoke both "--rrbs" and "--skip_align"
+    --bams [file]                       Use when skipping alignment and/or deduplication. If running deduplication input raw 
+                                        aligned BAMs. If performing methylation call extraction from bams "--skip_align" is 
+                                        automatically invoked. Invoke "--skip_dedup" if deduplication is not desired for input 
+                                        BAMs. For methylation call extraction from RRBS bams invoking only "--rrbs" is needed
 
     Trim Galore! Options:
      --clip_r1 [int]                    Trim the specified number of bases from the 5' end of read 1 (or single-end reads); default 0
@@ -333,7 +334,7 @@ if ( !params.nugen ){
 /*
  * Bismark alignment
  */
-if ( params.skip_align ){
+if ( params.skip_align || params.bams ){
     ch_bam_for_bismark_deduplicate = Channel.empty()
     ch_bam_for_bismark_summary = Channel.empty()
     ch_bam_for_preseq = Channel.empty()
