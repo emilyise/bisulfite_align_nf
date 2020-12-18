@@ -43,8 +43,8 @@ The typical command for running the pipeline within AWS Batch:
 Mandatory Arguments:
 
      --profile                          Choice of: 'awsbatch', 'docker', 'conda'
-     --reads [file]                     Path to input data; not necessary if skipping FastQC & Trim Galore!
-     --bismark_index [dir]              Path to Bismark bisulfite converted genome reference dir
+     --reads [file]                     Path to input data; not needed if skipping FastQC & Trim Galore!
+     --bismark_index [dir]              Path to Bismark genome reference dir; not needed if skipping alignment and extraction
      --outdir [dir]                     Directory to save results; must point to an S3 Bucket if on AWS Batch; default ''./results'
 
  Optional Arguments:
