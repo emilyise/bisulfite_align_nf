@@ -99,44 +99,61 @@ Bismark Alignment Options:
 
 Results for a full pipeline run will be saved to **--outdir** as:
 
-    - bismark_alignments
+    - MultiQC/
+        - multiqc_data/
+            - multiqc.log
+            - multiqc_bismark_alignment.txt
+            - multiqc_bismark_methextract.txt
+            - multiqc_cutadapt.txt
+            - multiqc_data.json
+            - multiqc_fastqc.txt
+            - multiqc_general_stats.txt
+            - multiqc_qualimap_bamqc_genome_results.txt
+            - multiqc_sources.txt
+        - multiqc_report.html
+    - bismark_alignments/
         - *.bam
-    - bismark_deduplicated
+    - bismark_deduplicated/
         - *.deduplicated.bam
-    - bismark_methylation_calls
-        - bedGraph
+    - bismark_methylation_calls/
+        - bedGraph/
             - *.deduplicated.bedGraph.gz
-        - m-bias
+        - m-bias/
             - *.deduplicated.M-bias.txt
-        - methylation_calls
+        - methylation_calls/
             - CpG_OT_*.deduplicated.txt.gz
             - CpG_OB_*.deduplicated.txt.gz
             - CHH_OT_*.deduplicated.txt.gz
             - CHH_OB_*.deduplicated.txt.gz
             - CHG_OT_*.deduplicated.txt.gz
             - CHG_OB_*.deduplicated.txt.gz
-        - methylation_coverage
+        - methylation_coverage/
             - *.deduplicated.bismark.cov.gz
-        - reports
+        - reports/
             - *.deduplicated_splitting_report.txt
-        - stranded_CpG_report
+        - stranded_CpG_report/
             - *.deduplicated.CpG_report.txt.gz
-    - fastqc
-        - *_pass_1_fastqc.html
-        - *_pass_2_fastqc.html
-    - trim_galore
-        - FastQC
-            - *_pass_1_fastqc.html
-            - *_pass_1_fastqc.zip
-            - *_pass_1_val_1_fastqc.html
-            - *_pass_1_val_1_fastqc.zip
-            - *_pass_2_fastqc.html
-            - *_pass_2_fastqc.zip
-            - *_pass_2_val_2_fastqc.html
-            - *_pass_2_val_2_fastqc.zip
-        - reports
-            - *_pass_1.fastq.gz_trimming_report.txt
-            - *_pass_2.fastq.gz_trimming_report.txt
-        - trimmed_reads
-            - *_pass_1_val_1.fq.gz
-            - *_pass_2_val_2.fq.gz
+    - bismark_summary/
+        - bismark_summary_report.html
+        - bismark_summary_report.txt
+    - fastqc/
+        - *_fastqc.html
+    - nugen_trim/
+        - *.fq_trimmed.fq.gz
+    - preseq/
+        - *.ccurve.txt
+    - qualimap/
+        - <sample>_qualimap/
+            - css/
+            - images_qualimapReport/
+            - raw_data_qualimapReport/
+            - genome_results.txt
+            - qualimapReport.html
+    - trim_galore/
+        - FastQC/
+            - *_fastqc.html
+            - *_fastqc.zip
+        - reports/
+            - *_fastq.gz_trimming_report.txt
+        - trimmed_reads/
+            - *.fq.gz
