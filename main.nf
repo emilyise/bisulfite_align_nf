@@ -190,9 +190,9 @@ if(params.skip_align || params.bams)  summary['Skip Align'] = "Yes"
 if(params.rrbs || params.skip_dedup) summary['Skip Deduplication'] = "Yes"
 if(params.skip_extract) summary['Skip mC Extract'] = "Yes"
 if(params.rrbs)             summary['RRBS Mode'] = 'On'
-if(params.nugen)             summary['Nugen Trim Mode'] = 'On'
+if(params.nugen)            summary['Nugen Trim Mode'] = 'On'
 if(params.truseq_epi)       summary['Trimming Profile'] = 'TruSeq Epigenome'
-if(params.single_cell && !params.nugen)      summary['Trimming Profile'] = 'Single Cell'
+if(params.single_cell && !params.nugen)     summary['Trimming Profile'] = 'Single Cell'
 if(params.single_cell && params.nugen)      summary['Trimming Profile'] = 'Nugen Trim + Single Cell'
 summary['Trimming']         = "5'R1: $clip_r1 / 5'R2: $clip_r2 / 3'R1: $three_prime_clip_r1 / 3'R2: $three_prime_clip_r2"
 summary['All C Contexts']   = params.comprehensive ? 'Yes' : 'No'
@@ -307,7 +307,7 @@ log.info "-\033[2m--------------------------------------------------\033[0m-"
 /*
  * Nugen MspI site filter & Diversity Trimming
  */
-if ( !params.nugen ){
+if ( !params.nugen || params.trimmed_reads ){
     ch_nugen_trimmed_reads_for_alignment = Channel.empty()
 } else if ( params.nugen ){
     process nugen_trim{
