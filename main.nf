@@ -184,11 +184,11 @@ if(params.reads)            summary['Reads'] = params.reads
 if(params.trimmed_reads)    summary['Trimmed Reads'] = params.trimmed_reads
 if(params.bams)             summary['BAMs'] = params.bams
 if(params.bismark_index)    summary['Bismark Index'] = params.bismark_index
-summary['Skip FastQC']      = params.skip_fastqc
-summary['Skip Trim Galore!'] = params.skip_trim
-summary['Skip Align']       = params.skip_align
-summary['Skip Deduplication'] = params.skip_dedup
-summary['Skip mC Extract'] = params.skip_extract
+if(params.skip_fastqc || params.skip_trim || params.trimmed_reads)    summary['Skip FastQC'] = "Yes"
+if(params.skip_trim || params.trimmed_reads) summary['Skip Trim Galore!'] = "Yes"
+if(params.skip_align || params.bams)  summary['Skip Align'] = "Yes"
+if(params.rrbs || params.skip_dedup) summary['Skip Deduplication'] = "Yes"
+if(params.skip_extract) summary['Skip mC Extract'] = "Yes"
 if(params.rrbs)             summary['RRBS Mode'] = 'On'
 if(params.nugen)             summary['Nugen Trim Mode'] = 'On'
 if(params.truseq_epi)       summary['Trimming Profile'] = 'TruSeq Epigenome'
@@ -222,7 +222,7 @@ log.info "-\033[2m--------------------------------------------------\033[0m-"
 /*
  * Pre-trim FastQC
  */
- if ( params.skip_fastqc || params.skip_trim ){
+ if ( params.skip_fastqc || params.skip_trim || params.trimmed_reads){
      ch_fastqc_results_for_multiqc = Channel.from(false)
  } else {
     process fastqc {
@@ -427,7 +427,7 @@ if ( params.skip_align || params.bams ){
 /*
  * Bismark deduplicate
  */
-if ( params.rrbs || params.skip_dedup ) {
+if ( params.rrbs || params.skip_dedup ){
     run_dedup = false
     } else {run_dedup = true}
 
@@ -534,7 +534,7 @@ if( !run_dedup && !params.skip_align ) {
     }
  }
 
-if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract ){
+if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract || params.trimmed_reads || params.bams ){
     // Do nothing; skip Bismark Sample Report & Summary Report as now certain reports are outside the current session
 } else {
 
@@ -596,7 +596,7 @@ if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_d
     }
 }
 
-if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract ){
+if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract || params.trimmed_reads || params.bams ){
     // Do nothing
 } else {
     /*
@@ -630,7 +630,7 @@ if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_d
     }
 }
 
-if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract ){
+if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract || params.trimmed_reads || params.bams ){
     // Do nothing
 } else {
     /*
@@ -660,7 +660,7 @@ if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_d
     }
 }
 
-if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract ){
+if (params.skip_fastqc || params.skip_trim || params.skip_align || params.skip_dedup || params.skip_extract || params.trimmed_reads || params.bams ){
     // Do nothing; skipping steps breaks MultiQC input channel structure -- need to run this manually in local env
 } else {
     /*
