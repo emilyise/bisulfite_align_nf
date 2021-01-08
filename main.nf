@@ -153,13 +153,13 @@ if ( params.reads && !params.skip_fastqc && !params.skip_trim ) {
     }
 
 // Assign pre-trimmed reads to channel if skipping Trim Galore!
-if ( params.skip_trim && params.trimmed_reads && !params.skip_align ) {
+if ( params.skip_trim || params.trimmed_reads && !params.skip_align ) {
     Channel
         .fromFilePairs( params.trimmed_reads, size: 2 )
         .ifEmpty { exit 1, "Cannot find any trimmed reads in dir: ${params.trimmed_reads}" }
         .set { ch_trimmed_reads_for_alignment_preproc }
-    } else if ( params.skip_trim && !params.trimmed_reads && !params.skip_align ) {
-        exit 1, "Must provide trimmed reads to align!"
+    } else if ( params.skip_trim && !params.reads && !params.trimmed_reads && !params.skip_align ) {
+        exit 1, "Must provide reads to align!"
     } else { ch_trimmed_reads_for_alignment_preproc = Channel.empty() }
 
 // Assign pre-aligned bams for use in deduplication and/or methylation call extraction
