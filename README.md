@@ -72,10 +72,13 @@ Intermediate Arguments:
 
 Trim Galore! Options:
 
+     --adapter1 [str]                   Use custom adapter 1 sequence for trim; quoted string; default = false
+     --adapter2 [str]                   Use custom adapter 2 sequence for trim; quoted string; default = false
      --clip_r1 [int]                    Trim the specified number of bases from the 5' end of read 1 (or single-end reads); default = 0
      --clip_r2 [int]                    Trim the specified number of bases from the 5' end of read 2 (paired-end only); default = 0
      --three_prime_clip_r1 [int]        Trim the specified number of bases from the 3' end of read 1 AFTER adapter/quality trimming; default  = 0
      --three_prime_clip_r2 [int]        Trim the specified number of bases from the 3' end of read 2 AFTER adapter/quality trimming; default = 0
+     --min_insert [int]                 Set the minimum length of post-trim read pairs; default 20
 
     
     WARNING: the following overwrite command line settings for: --clip_r1 --clip_r2 --three_prime_clip_r1 --three_prime_clip_r2 !!
@@ -89,8 +92,7 @@ Bismark Alignment Options:
      --cytosine_report                  Output stranded cytosine report during Bismark's bismark_methylation_extractor step; default = false
      --non_directional                  Run alignment against all four possible strands; default = false
      --unmapped                         Save unmapped reads to fastq files; default = false
-     --relax_mismatches                 Turn on to relax stringency for alignment (set allowed penalty with --num_mismatches); default = false
-     --num_mismatches [float]           default value = 0.6 will allow a penalty of bp * -0.6 - for 100bp reads (bismark default is 0.2)
+     --num_mismatches [float]           E.g. 0.6 will allow a penalty of bp * -0.6 - for 100bp reads (default is 0.2)
      --local_alignment                  Allow soft-clipping of reads (potentially useful for single-cell experiments); default = false
      --bismark_align_cpu_per_multicore [int]    Specify how many CPUs are required per --multicore for bismark align; default = 3
      --bismark_align_mem_per_multicore [str]    Specify how much memory is required per --multicore for bismark align; default = 15.GB

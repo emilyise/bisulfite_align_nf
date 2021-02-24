@@ -27,8 +27,8 @@ def helpMessage() {
                  '--profile', 'awsbatch']
 
     Basic Arguments:
-      -profile                          Choice of: 'awsbatch', 'docker', 'conda' **NOTE THE LACK OF DOUBLE DASH!**
-     --reads [file]                     Path to input data; not needed if skipping FastQC & Trim Galore!
+      -profile                          Choice of: 'awsbatch', 'docker', 'conda'; 
+     --reads [file]                     Path to input data; not needed if skipping FastQC & Trim Galore!; quote glob string if running outside AWS Batch
      --bismark_index [dir]              Path to Bismark genome reference dir; not needed if skipping alignment and extraction
      --outdir [dir]                     Directory to save results; must point to an S3 Bucket if on AWS Batch; default ''./results'
     
@@ -39,7 +39,7 @@ def helpMessage() {
 
     Intermediate Arguments:
         Use these when skipping certain steps is necessary or desired. 
-        Note, skipping any step will also break the downstream generation of a MultiQC report:
+        Note, skipping any step will also break the downstream generation of a MultiQC report.
     --skip_fastqc                       Skips FastQC of raw reads
     --skip_trim                         Skips read trimming; will automatically skip raw read FastQC step
     --skip_align                        Skips Bismark Alignment; automatically invoked when "--bams" provided 
@@ -53,10 +53,13 @@ def helpMessage() {
                                         BAMs. For methylation call extraction from RRBS BAMs invoking only "--rrbs" is needed
 
     Trim Galore! Options:
+     --adapter1 [str]                   Use custom adapter 1 sequence for trim; quoted string; default = false
+     --adapter2 [str]                   Use custom adapter 2 sequence for trim; quoted string; default = false
      --clip_r1 [int]                    Trim the specified number of bases from the 5' end of read 1 (or single-end reads); default 0
      --clip_r2 [int]                    Trim the specified number of bases from the 5' end of read 2 (paired-end only); default 0
      --three_prime_clip_r1 [int]        Trim the specified number of bases from the 3' end of read 1 AFTER adapter/quality trimming; default 0
      --three_prime_clip_r2 [int]        Trim the specified number of bases from the 3' end of read 2 AFTER adapter/quality trimming; default 0
+     --min_insert [int]                 Set the minimum length of post-trim read pairs; default 20
        
         
     !! WARNING: the following overwrite command line settings for --clip_r1 --clip_r2 --three_prime_clip_r1 --three_prime_clip_r2 !!
@@ -69,8 +72,7 @@ def helpMessage() {
      --cytosine_report                  Output stranded cytosine report during Bismark's bismark_methylation_extractor step; default = false
      --non_directional                  Run alignment against all four possible strands; default = false
      --unmapped                         Save unmapped reads to fastq files; default = false
-     --relax_mismatches                 Turn on to relax stringency for alignment (set allowed penalty with --num_mismatches); default = false
-     --num_mismatches [float]           default value = 0.6 will allow a penalty of bp * -0.6 - for 100bp reads (bismark default is 0.2)
+     --num_mismatches [float]           E.g. 0.6 will allow a penalty of bp * -0.6 - for 100bp reads (default is 0.2)
      --local_alignment                  Allow soft-clipping of reads (potentially useful for single-cell experiments); default = false
      --bismark_align_cpu_per_multicore [int]    Specify how many CPUs are required per --multicore for bismark align; default = 3
      --bismark_align_mem_per_multicore [str]    Specify how much memory is required per --multicore for bismark align; default = 15.GB
@@ -195,9 +197,15 @@ if(params.truseq_epi)       summary['Trimming Profile'] = 'TruSeq Epigenome'
 if(params.single_cell && !params.nugen)     summary['Trimming Profile'] = 'Single Cell'
 if(params.single_cell && params.nugen)      summary['Trimming Profile'] = 'Nugen Trim + Single Cell'
 summary['Trimming']         = "5'R1: $clip_r1 / 5'R2: $clip_r2 / 3'R1: $three_prime_clip_r1 / 3'R2: $three_prime_clip_r2"
+if(params.adapter1)         summary['Adapter 1 Seq'] = params.adapter1
+if(params.adapter2)         summary['Adapter 2 Seq'] = params.adapter2
+if(params.min_insert)       summary['Min. Insert Len.'] = params.min_insert
 summary['All C Contexts']   = params.comprehensive ? 'Yes' : 'No'
-summary['Cytosine report']  = params.cytosine_report ? 'Yes' : 'No'
-if(params.unmapped)         summary['Save Unmapped Reads'] = 'Yes'
+summary['Cytosine Report']  = params.cytosine_report ? 'Yes' : 'No'
+summary['Non-directional']  = params.non_directional ? 'Yes' : 'No'
+summary['Save Unmapped Reads'] = params.unmapped ? 'Yes' : 'No'
+if(params.num_mismatches)   summary['Num. Mismatches'] = params.num_mismatches
+summary['Local Alignment']  = params.local_alignment ? 'Yes' : 'No'
 if(params.bismark_align_cpu_per_multicore) summary['Bismark align CPUs per --multicore'] = params.bismark_align_cpu_per_multicore
 if(params.bismark_align_mem_per_multicore) summary['Bismark align memory per --multicore'] = params.bismark_align_mem_per_multicore
 if(params.custom_container) summary['Custom Container'] = params.custom_container
@@ -281,6 +289,9 @@ log.info "-\033[2m--------------------------------------------------\033[0m-"
         def tpc_r2 = three_prime_clip_r2 > 0 ? "--three_prime_clip_r2 $three_prime_clip_r2" : ''
         def rrbs = params.rrbs && !params.nugen ? "--rrbs" : ''
         def nugen = params.nugen ? "-a AGATCGGAAGAGC -a2 AAATCAAAAAAAC" : ''
+        def adapter1 = params.adapter1 ? "-a $params.adapter1" : ''
+        def adapter2 = params.adapter2 ? "-a2 $params.adapter2" : ''
+        def min_length = params.min_insert ? "--length $params.min_insert" : ''
         def cores = 1
         if(task.cpus){
             cores = (task.cpus as int) - 4
@@ -292,6 +303,9 @@ log.info "-\033[2m--------------------------------------------------\033[0m-"
         --fastqc \
         --gzip \
         --paired $reads \
+        $adapter1 \
+        $adapter2 \
+        $min_length \
         $rrbs \
         $nugen \
         $c_r1 \
@@ -375,7 +389,7 @@ if ( params.skip_align || params.bams ){
     // Optional Bismark parameters
     non_directional = params.non_directional ? "--non_directional" : ''
     unmapped = params.unmapped ? "--unmapped" : ''
-    mismatches = params.relax_mismatches ? "--score_min L,0,-${params.num_mismatches}" : ''
+    mismatches = params.num_mismatches ? "--score_min L,0,-${params.num_mismatches}" : ''
     soft_clipping = params.local_alignment ? "--local" : ''
 
     // Set Bismark cores & memory according to the given task
