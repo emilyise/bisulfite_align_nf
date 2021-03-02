@@ -15,7 +15,7 @@ def helpMessage() {
 
     The typical command for running the pipeline:
 
-       nextflow run bisulfite_align/main.nf --profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/index/dir/>
+       nextflow run bisulfite_align/main.nf -profile 'docker' --reads '*_R{1,2}.fastq.gz' --bismark_index </path/to/index/dir/>
 
     
     The typical command for running the pipeline within AWS Batch:
@@ -24,7 +24,7 @@ def helpMessage() {
                  '--reads', 's3://path/to/fastq/files/*_R{1,2}.fastq.gz',
                  '--outdir', 's3://path/to/output/dir',
                  '--bismark_index', 's3://path/to/bismark/genome/index/dir',
-                 '--profile', 'awsbatch']
+                 '-profile', 'awsbatch']
 
     Basic Arguments:
       -profile                          Choice of: 'awsbatch', 'docker', 'conda'; 
