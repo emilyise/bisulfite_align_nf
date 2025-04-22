@@ -1,3 +1,7 @@
+# bisulfite-align-NF: Modified for Ohm Group
+
+Includes updated config file with singularity profile. We are working on including NuGEN deduplication step. Although deduplication is generally not recommended for RRBS data, the NuGEN Ovation assay specifically applies unique molecular identifiers for this purpose, contained in read 2. 
+
 # bisulfite-align-NF: Nextflow Bisulfite/MethylC-Seq Pipeline
 
 Modified expansion of [nf-core/methylseq](https://github.com/nf-core/methylseq). Alignment is performed using [Bowtie 2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) and [Bismark](https://github.com/FelixKrueger/Bismark) with added support for [NuGEN Ovation RRBS](https://github.com/nugentechnologies/NuMetRRBS) libraries.
