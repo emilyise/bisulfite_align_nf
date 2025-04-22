@@ -1,6 +1,8 @@
-# bisulfite-align-NF: Modified for esay use with UB HPC and addition of deduplication step
+# bisulfite-align-NF: Modification
 
-Includes updated config file with singularity profile. We are working on including NuGEN deduplication step. Although deduplication is generally not recommended for RRBS data, the NuGEN Ovation assay specifically applies unique molecular identifiers for this purpose, contained in read 2. 
+Modified to improve use with UB HPC and to allow use of NuGEN deduplication step. Includes updated config file with singularity profile option. We are working on including NuGEN deduplication step. Although deduplication is generally not recommended for RRBS data, the NuGEN Ovation assay specifically applies unique molecular identifiers for this purpose, contained in read 2. 
+
+---- 
 
 # bisulfite-align-NF: Nextflow Bisulfite/MethylC-Seq Pipeline
 
